@@ -1,14 +1,14 @@
 package data;
 
-public abstract class Data {
+public class Data {
 
-    abstract int countCharSet();
+    private String text;
 
-    abstract int showBiggest();
+    public String getText() {
+        return text;
+    }
 
-    abstract int repetitionsOfBiggest();
-
-    abstract int repetitionsOfBiggestInPercent();
-
-
+    public void setText(String text) {
+        this.text = text;
+    }
 }
