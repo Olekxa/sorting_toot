@@ -21,14 +21,11 @@ public class SortingTool {
         if (args.length != 2 || !args[0].equals(Constants.BASE)) {
             throw new IllegalArgumentException("Wrong command");
         }
-        if (args[1].equals(Constants.SORT_LINE)) {
-            return new ParseLineCommand(inputData);
-        } else if (args[1].equals(Constants.SORT_LONG)) {
-            return new ParseLongCommand(inputData);
-        } else if (args[1].equals(Constants.SORT_WORD)) {
-            return new ParseWordCommand(inputData);
-        } else {
-            return new ParseUnknownCommand(inputData);
-        }
+        return switch (args[1]) {
+            case Constants.SORT_LINE -> new ParseLineCommand(inputData);
+            case Constants.SORT_LONG -> new ParseLongCommand(inputData);
+            case Constants.SORT_WORD -> new ParseWordCommand(inputData);
+            default -> new ParseUnknownCommand(inputData);
+        };
     }
 }
