@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class UnknownCommandException extends CommandException {
+
     public UnknownCommandException(List<String> errors) {
         super(errors);
     }

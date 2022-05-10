@@ -6,9 +6,8 @@ import utils.SortType;
 import utils.Utils;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 
 public class ParseLongCommand extends Command<LongData> {
@@ -44,7 +43,7 @@ public class ParseLongCommand extends Command<LongData> {
     }
 
     private List<String> sortByNatural(List<ILong> data) {
-        data.sort((o1, o2) -> Long.compare(o1.getValue(), o2.getValue()));
+        data.sort(Comparator.comparingLong(ILong::getValue));
         List<String> stringList = new ArrayList<>();
         for (ILong number : data) {
             stringList.add(number.toString());
@@ -72,51 +71,3 @@ public class ParseLongCommand extends Command<LongData> {
         return resulList;
     }
 }
-//        List<Long> innStream = getList();
-//        long maxNumber = getMaxNumber(innStream);
-//        int countItems = innStream.size();
-//        int countRepeats = getCountRepeats(innStream, maxNumber);
-//        int percent = Math.round((float) countRepeats / countItems * 100);
-//        List<String> collect = fromLongToString(innStream);
-//        getInputData().setList(collect);
-//        return String.format("Total numbers: %d.\n" +
-//                "The greatest number: %d (%d time(s), %d%%).", countItems, maxNumber, countRepeats, percent);
-//    }
-//
-//    private List<String> fromLongToString(List<Long> innStream) {
-//        List<String> collect = innStream.stream()
-//                .map(Object::toString)
-//                .collect(Collectors.toList());
-//        return collect;
-//    }
-//
-//    private int getCountRepeats(List<Long> innStream, long maxNumber) {
-//        int countRepeats = innStream.stream()
-//                .filter(x -> Objects.equals(x, maxNumber))
-//                .toList()
-//                .size();
-//        return countRepeats;
-//    }
-//
-//    private long getMaxNumber(List<Long> innStream) {
-//        long maxNumber = innStream.stream()
-//                .max(Long::compare)
-//                .orElseThrow(NoSuchElementException::new);
-//        return maxNumber;
-//    }
-//
-//    private List<Long> getList() {
-//        List<Long> innStream = getInputData()
-//                .getList()
-//                .stream()
-//                .map(String::trim)
-//                .flatMap(s -> Arrays.stream(s.split("\\D")))
-//                .filter(x -> x.matches("-?\\d+(\\.\\d+)?"))
-//                .map(Long::parseLong)
-//                .toList();
-//        return innStream;
-//    }
-//
-//}
-
-
