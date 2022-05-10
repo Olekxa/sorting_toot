@@ -10,6 +10,8 @@ import errors.UnknownCommandException;
 import utils.SortType;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +29,11 @@ public class Tool {
         try {
             Command<? extends Data<?>> command = factory(commands);
             String result = command.execute();
-            System.out.println(result);
+            if (commands.containsKey(Commands.WRITE_DATA)) {
+                writeData(commands, result);
+            } else {
+                System.out.println(result);
+            }
         } catch (UnknownCommandException e) {
             e.getMessages().forEach(System.out::println);
             e.getErrors().forEach(commands::remove);
@@ -37,13 +43,13 @@ public class Tool {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
-    private Command<? extends Data<?>> factory(Map<String, String> commands) throws Exception {
+    private Command factory(Map<String, String> commands) throws Exception {
         unknownCommand(commands);
         SortType sortType = parseSort(commands);
-        File inputFile = parseInputFile(commands);
-
+        File inputFile = readInputFile(commands);
         String value = commands.get(Commands.DATA_TYPE);
         DataType type = DataType.getDataType(value);
         if (DataType.LONG == type) {
@@ -57,13 +63,33 @@ public class Tool {
         }
     }
 
+    private void writeData(Map<String, String> commands, String data) {
+        String value = commands.get(Commands.WRITE_DATA);
+        File file = new File(value);
+        try (FileWriter fileWriter = new FileWriter(file)) {
+            fileWriter.write(data);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private File readInputFile(Map<String, String> commands) {
+        String value = commands.get(Commands.READ_DATA);
+        if (value != null && !value.isBlank()) {
+            return new File(value);
+        }
+        return null;
+    }
+
     private void unknownCommand(Map<String, String> commands) {
         List<Map.Entry<String, String>> collect =
                 commands
                         .entrySet()
                         .stream()
                         .filter(entry -> !(Commands.DATA_TYPE.equals(entry.getKey())
-                                || Commands.SORT_TYPE.equals(entry.getKey()))).
+                                || Commands.SORT_TYPE.equals(entry.getKey())
+                                || Commands.WRITE_DATA.equals(entry.getKey())
+                                || Commands.READ_DATA.equals(entry.getKey()))).
                         collect(Collectors.toList());
         if (!collect.isEmpty()) {
             List<String> list = new ArrayList<>();
@@ -76,14 +102,6 @@ public class Tool {
         }
     }
 
-    private File parseInputFile(Map<String, String> commands) {
-        String value = commands.get("-inputFile");
-        if (value != null && !value.isBlank()) {
-            return new File(value);
-        }
-        return null;
-    }
-
     private SortType parseSort(Map<String, String> commands) throws NoSortException {
         if (commands.containsKey(Commands.SORT_TYPE)) {
             String value = commands.get(Commands.SORT_TYPE);
@@ -93,7 +111,7 @@ public class Tool {
             } else {
                 return type;
             }
-        }else return SortType.NONE;
+        } else return SortType.NONE;
     }
 
     private Map<String, String> parseArgs(String[] args) {

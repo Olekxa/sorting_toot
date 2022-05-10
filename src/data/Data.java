@@ -42,5 +42,4 @@ public abstract class Data<T> {
             return new Scanner(System.in);
         }
     }
-
 }
