@@ -1,7 +1,7 @@
 package errors;
 
 import java.util.Collections;
-import java.util.List;
+
 
 public class NoDataException extends CommandException{
     public NoDataException() {

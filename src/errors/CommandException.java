@@ -3,7 +3,7 @@ package errors;
 import java.util.List;
 
 public class CommandException extends RuntimeException {
-    private List<String> errors;
+    private final List<String> errors;
 
     public CommandException(List<String> errors) {
         this.errors = errors;

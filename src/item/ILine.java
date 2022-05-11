@@ -13,10 +13,6 @@ public class ILine {
         return value;
     }
 
-    public int length() {
-        return value.length();
-    }
-
     @Override
     public String toString() {
         return value;
@@ -25,8 +21,7 @@ public class ILine {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ILine)) return false;
-        ILine iLine = (ILine) o;
+        if (!(o instanceof ILine iLine)) return false;
         return getValue().equals(iLine.getValue());
     }
 

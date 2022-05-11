@@ -25,8 +25,7 @@ public class IWord {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof IWord)) return false;
-        IWord iWord = (IWord) o;
+        if (!(o instanceof IWord iWord)) return false;
         return getValue().equals(iWord.getValue());
     }
 

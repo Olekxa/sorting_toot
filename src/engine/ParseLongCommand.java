@@ -39,7 +39,7 @@ public class ParseLongCommand extends Command<LongData> {
                 .map(s -> String.format("\"%s\" is not a long. It will be skipped.\n", s))
                 .collect(Collectors.toList());
         return Collections
-                .singletonList(String.format(String.join("", invalidMessage)));
+                .singletonList(String.join("", invalidMessage));
     }
 
     private List<String> sortByNatural(List<ILong> data) {

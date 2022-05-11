@@ -5,7 +5,7 @@ public enum SortType {
     BY_COUNT("byCount"),
     NONE("");
 
-    private String name;
+    private final String name;
 
     SortType(String name) {
         this.name = name;

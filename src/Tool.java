@@ -1,3 +1,4 @@
+
 import data.*;
 import engine.Command;
 import engine.ParseLineCommand;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
 
 public class Tool {
     private final Map<String, String> commands;
@@ -89,8 +90,8 @@ public class Tool {
                         .filter(entry -> !(Commands.DATA_TYPE.equals(entry.getKey())
                                 || Commands.SORT_TYPE.equals(entry.getKey())
                                 || Commands.WRITE_DATA.equals(entry.getKey())
-                                || Commands.READ_DATA.equals(entry.getKey()))).
-                        collect(Collectors.toList());
+                                || Commands.READ_DATA.equals(entry.getKey())))
+                        .toList();
         if (!collect.isEmpty()) {
             List<String> list = new ArrayList<>();
             for (Map.Entry<String, String> entry : collect) {

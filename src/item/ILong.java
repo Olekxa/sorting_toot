@@ -21,8 +21,7 @@ public class ILong {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ILong)) return false;
-        ILong iLong = (ILong) o;
+        if (!(o instanceof ILong iLong)) return false;
         return getValue() == iLong.getValue();
     }
 
