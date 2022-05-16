@@ -1,52 +1,45 @@
 
 import data.*;
-import engine.Command;
-import engine.ParseLineCommand;
-import engine.ParseLongCommand;
-import engine.ParseWordCommand;
+import engine.*;
 import errors.*;
 import utils.SortType;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class Tool {
-    private final Map<String, String> commands;
+    private final CommandsData commandsData;
 
     public Tool(String[] args) {
-        commands = parseArgs(args);
+        this.commandsData = new CommandsData(args);
     }
 
-    public void run() {
+    public void launch() {
         try {
-            Command<? extends Data<?>> command = factory(commands);
+            Command<? extends Data<?>> command = factory(commandsData.getList());
             String result = command.execute();
-            if (commands.containsKey(Commands.WRITE_DATA)) {
-                writeData(commands, result);
+            if (commandsData.contains(Commands.WRITE_DATA)) {
+                writeData(commandsData.getList(), result);
             } else {
                 System.out.println(result);
             }
         } catch (UnknownCommandException e) {
             e.getMessages().forEach(System.out::println);
-            e.getErrors().forEach(commands::remove);
-            run();
+            e.getErrors().forEach(commandsData::remove);
+            launch();
         } catch (CommandException e) {
             e.getErrors().forEach(System.out::println);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    private Command factory(Map<String, String> commands) throws FileCommandException,
-            NoDataException,
-            NoSortException,
-            UnknownCommandException {
+    private Command<? extends Data<?>> factory(
+            Map<String, String> commands
+    ) throws FileCommandException, NoDataException, NoSortException, UnknownCommandException {
         unknownCommand(commands);
         SortType sortType = parseSort(commands);
         File inputFile = readInputFile(commands);
@@ -94,7 +87,6 @@ public class Tool {
         }
     }
 
-
     private SortType parseSort(Map<String, String> commands) throws NoSortException {
         if (commands.containsKey(Commands.SORT_TYPE)) {
             String value = commands.get(Commands.SORT_TYPE);
@@ -105,25 +97,5 @@ public class Tool {
                 return type;
             }
         } else return SortType.NONE;
-    }
-
-    private Map<String, String> parseArgs(String[] args) {
-        Map<String, String> params = new HashMap<>();
-        String arg;
-        String val;
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].matches("-.+")) {
-                arg = args[i];
-                if (i == args.length - 1) {
-                    val = "";
-                } else if (args[i + 1].matches("-.+")) {
-                    val = "";
-                } else {
-                    val = args[i + 1];
-                }
-                params.put(arg, val);
-            }
-        }
-        return params;
     }
 }
