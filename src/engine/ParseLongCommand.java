@@ -1,13 +1,11 @@
 package engine;
 
 import data.LongData;
-import item.ILong;
 import utils.SortType;
 import utils.Utils;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
 
 
 public class ParseLongCommand extends Command<LongData> {
@@ -18,7 +16,7 @@ public class ParseLongCommand extends Command<LongData> {
 
     @Override
     public String execute() {
-        List<ILong> data = getInput().getData();
+        List<Long> data = getInput().getData();
         List<String> result;
         if (SortType.BY_COUNT.equals(getSortType())) {
             result = sortByCount(data);
@@ -42,10 +40,9 @@ public class ParseLongCommand extends Command<LongData> {
                 .singletonList(String.join("", invalidMessage));
     }
 
-    private List<String> sortByNatural(List<ILong> data) {
-        data.sort(Comparator.comparingLong(ILong::getValue));
+    private List<String> sortByNatural(List<Long> data) {
         List<String> stringList = new ArrayList<>();
-        for (ILong number : data) {
+        for (Long number : data) {
             stringList.add(number.toString());
         }
         return Collections.singletonList(
@@ -55,18 +52,18 @@ public class ParseLongCommand extends Command<LongData> {
         );
     }
 
-    private List<String> sortByCount(List<ILong> iLongs) {
-        Map<ILong, Integer> map = new LinkedHashMap<>();
+    private List<String> sortByCount(List<Long> longs) {
+        Map<Long, Integer> map = new LinkedHashMap<>();
         List<String> resulList = new ArrayList<>();
-        for (ILong iLong : iLongs) {
+        for (Long iLong : longs) {
             map.put(iLong, map.getOrDefault(iLong, 0) + 1);
         }
-        Map<ILong, Integer> sortedMap = Utils.sortByValue(map);
+        Map<Long, Integer> sortedMap = Utils.sortByValue(map);
 
-        for (Map.Entry<ILong, Integer> entry : sortedMap.entrySet()) {
+        for (Map.Entry<Long, Integer> entry : sortedMap.entrySet()) {
 
-            int percent = Math.round((float) entry.getValue() / iLongs.size() * 100);
-            resulList.add(String.format("%d: %d time(s), %d%%", entry.getKey().getValue(), entry.getValue(), percent));
+            int percent = Math.round((float) entry.getValue() / longs.size() * 100);
+            resulList.add(String.format("%d: %d time(s), %d%%", entry.getKey(), entry.getValue(), percent));
         }
         return resulList;
     }

@@ -2,7 +2,6 @@ package engine;
 
 
 import data.WordData;
-import item.IWord;
 import utils.SortType;
 import utils.Utils;
 
@@ -16,7 +15,7 @@ public class ParseWordCommand extends Command<WordData> {
 
     @Override
     public String execute() {
-        List<IWord> data = getInput().getData();
+        List<String> data = getInput().getData();
         List<String> result;
         if (SortType.BY_COUNT.equals(getSortType())) {
             result = sortByCount(data);
@@ -28,29 +27,24 @@ public class ParseWordCommand extends Command<WordData> {
         return String.format("%s\n%s", total, sort);
     }
 
-    private List<String> sortByNatural(List<IWord> data) {
-        data.sort(Comparator.comparing(IWord::getValue));
-        List<String> stringList = new ArrayList<>();
-        for (IWord line : data) {
-            stringList.add(line.getValue());
-        }
+    private List<String> sortByNatural(List<String> data) {
         return Collections.singletonList(
                 String.format(
-                        "Sorted data: %s", String.join(" ", stringList)
+                        "Sorted data: %s", String.join(" ", data)
                 )
         );
     }
 
-    private List<String> sortByCount(List<IWord> words) {
-        Map<IWord, Integer> map = new LinkedHashMap<>();
+    private List<String> sortByCount(List<String> words) {
+        Map<String, Integer> map = new LinkedHashMap<>();
         List<String> resulList = new ArrayList<>();
-        for (IWord word : words) {
+        for (String word : words) {
             map.put(word, map.getOrDefault(word, 0) + 1);
         }
 
-        Map<IWord, Integer> sortedMap = Utils.sortByValue(map);         //new TreeMap<>((o1, o2) -> Integer.compare(map.get(o2), map.get(o1)));
+        Map<String, Integer> sortedMap = Utils.sortByValue(map);
 
-        for (Map.Entry<IWord, Integer> entry : sortedMap.entrySet()) {
+        for (Map.Entry<String, Integer> entry : sortedMap.entrySet()) {
             Integer value = entry.getValue();
 
             int percent = Math.round((float) value / words.size() * 100);

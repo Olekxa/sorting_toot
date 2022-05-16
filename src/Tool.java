@@ -4,16 +4,12 @@ import engine.Command;
 import engine.ParseLineCommand;
 import engine.ParseLongCommand;
 import engine.ParseWordCommand;
-import errors.CommandException;
-import errors.NoDataException;
-import errors.NoSortException;
-import errors.UnknownCommandException;
+import errors.*;
 import utils.SortType;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +43,10 @@ public class Tool {
 
     }
 
-    private Command factory(Map<String, String> commands) throws Exception {
+    private Command factory(Map<String, String> commands) throws FileCommandException,
+            NoDataException,
+            NoSortException,
+            UnknownCommandException {
         unknownCommand(commands);
         SortType sortType = parseSort(commands);
         File inputFile = readInputFile(commands);
@@ -83,25 +82,18 @@ public class Tool {
     }
 
     private void unknownCommand(Map<String, String> commands) {
-        List<Map.Entry<String, String>> collect =
-                commands
-                        .entrySet()
-                        .stream()
-                        .filter(entry -> !(Commands.DATA_TYPE.equals(entry.getKey())
-                                || Commands.SORT_TYPE.equals(entry.getKey())
-                                || Commands.WRITE_DATA.equals(entry.getKey())
-                                || Commands.READ_DATA.equals(entry.getKey())))
-                        .toList();
-        if (!collect.isEmpty()) {
-            List<String> list = new ArrayList<>();
-            for (Map.Entry<String, String> entry : collect) {
-                String fall = entry.getKey();
-                commands.remove(entry.getKey());
-                list.add(fall);
-                throw new UnknownCommandException(list);
-            }
+        List<String> unknownCommands = commands
+                .keySet()
+                .stream()
+                .filter(s -> !(Commands.DATA_TYPE.equals(s)
+                        || Commands.SORT_TYPE.equals(s)
+                        || Commands.WRITE_DATA.equals(s)
+                        || Commands.READ_DATA.equals(s))).toList();
+        if (!unknownCommands.isEmpty()) {
+            throw new UnknownCommandException(unknownCommands);
         }
     }
+
 
     private SortType parseSort(Map<String, String> commands) throws NoSortException {
         if (commands.containsKey(Commands.SORT_TYPE)) {

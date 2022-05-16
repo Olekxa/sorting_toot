@@ -1,18 +1,18 @@
 package data;
 
-import item.ILong;
+import errors.FileCommandException;
+
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LongData extends Data<ILong> {
+public class LongData extends Data<Long> {
 
 
-    public LongData(File input) throws FileNotFoundException {
+    public LongData(File input) throws FileCommandException {
         super(input);
     }
 
@@ -26,15 +26,14 @@ public class LongData extends Data<ILong> {
     }
 
     @Override
-    public List<ILong> mapData(List<String> data) {
+    public List<Long> mapData(List<String> data) {
         return data
                 .stream()
                 .map(String::trim)
                 .flatMap(s -> Arrays.stream(s.split(" ")))
                 .filter(x -> x.matches("-?\\d+(\\.\\d+)?"))
                 .map(Long::parseLong)
-                .map(ILong::new)
-                .sorted(Comparator.comparingLong(ILong::getValue))
+                .sorted(Comparator.naturalOrder())
                 .collect(Collectors.toList());
     }
 }

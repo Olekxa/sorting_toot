@@ -1,7 +1,6 @@
 package engine;
 
 import data.LineData;
-import item.ILine;
 import utils.SortType;
 import utils.Utils;
 
@@ -15,7 +14,7 @@ public class ParseLineCommand extends Command<LineData> {
 
     @Override
     public String execute() {
-        List<ILine> data = getInput().getData();
+        List<String> data = getInput().getData();
         List<String> result;
         if (SortType.BY_COUNT.equals(getSortType())) {
             result = sortByCount(data);
@@ -27,29 +26,24 @@ public class ParseLineCommand extends Command<LineData> {
         return String.format("%s\n%s", total, sort);
     }
 
-    private List<String> sortByNatural(List<ILine> data) {
-        data.sort(Comparator.comparing(ILine::getValue));
-        List<String> stringList = new ArrayList<>();
-        for (ILine line : data) {
-            stringList.add(line.getValue());
-        }
+    private List<String> sortByNatural(List<String> data) {
         return Collections.singletonList(
                 String.format(
-                        "Sorted data: %s", String.join(" ", stringList)
+                        "Sorted data: %s", String.join(" ", data)
                 )
         );
     }
 
-    private List<String> sortByCount(List<ILine> data) {
-        Map<ILine, Integer> map = new LinkedHashMap<>();
+    private List<String> sortByCount(List<String> data) {
+        Map<String, Integer> map = new LinkedHashMap<>();
         List<String> resulList = new ArrayList<>();
-        for (ILine word : data) {
+        for (String word : data) {
             map.put(word, map.getOrDefault(word, 0) + 1);
         }
 
-        Map<ILine, Integer> sortedMap = Utils.sortByValue(map);         //new TreeMap<>((o1, o2) -> Integer.compare(map.get(o2), map.get(o1)));
+        Map<String, Integer> sortedMap = Utils.sortByValue(map);
 
-        for (Map.Entry<ILine, Integer> entry : sortedMap.entrySet()) {
+        for (Map.Entry<String, Integer> entry : sortedMap.entrySet()) {
             Integer value = entry.getValue();
 
             int percent = Math.round((float) value / data.size() * 100);

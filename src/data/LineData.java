@@ -1,22 +1,21 @@
 package data;
 
-import item.ILine;
+import errors.FileCommandException;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LineData extends Data<ILine> {
-    public LineData(File input) throws FileNotFoundException {
+public class LineData extends Data<String> {
+    public LineData(File input) throws FileCommandException {
         super(input);
     }
 
     @Override
-    public List<ILine> mapData(List<String> data) {
+    public List<String> mapData(List<String> data) {
         return data.stream()
-                .map(ILine::new)
-                .sorted(Comparator.comparing(ILine::getValue))
+                .sorted(Comparator.naturalOrder())
                 .collect(Collectors.toList());
     }
 }

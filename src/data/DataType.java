@@ -5,7 +5,6 @@ public enum DataType {
     WORD("word"),
     LINE("line");
 
-
     private final String nameCommand;
 
 

@@ -1,5 +1,7 @@
 package data;
 
+import errors.FileCommandException;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ public abstract class Data<T> {
     private final List<T> data;
     private final List<String> invalid;
 
-    public Data(File input) throws FileNotFoundException {
+    public Data(File input) throws FileCommandException {
         List<String> data = new ArrayList<>();
         try (Scanner scanner = getScanner(input)) {
             while (scanner.hasNext()) {
@@ -35,9 +37,13 @@ public abstract class Data<T> {
         return invalid;
     }
 
-    private Scanner getScanner(File input) throws FileNotFoundException {
+    private Scanner getScanner(File input) throws FileCommandException {
         if (input != null) {
-            return new Scanner(input);
+            try {
+                return new Scanner(input);
+            } catch (FileNotFoundException e) {
+                throw new FileCommandException();
+            }
         } else {
             return new Scanner(System.in);
         }
