@@ -4,18 +4,19 @@ import data.LongData;
 import utils.SortType;
 import utils.Utils;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class ParseLongCommand extends Command<LongData> {
+public class ParseLongCommand extends Command<Long, LongData> {
 
-    public ParseLongCommand(LongData input, SortType sortType) {
-        super(input, sortType);
+    public ParseLongCommand(LongData input, SortType sortType, File outputFile) {
+        super(input, sortType, outputFile);
     }
 
     @Override
-    public String execute() {
+    public String process() {
         List<Long> data = getInput().getData();
         List<String> result;
         if (SortType.BY_COUNT.equals(getSortType())) {
@@ -52,19 +53,8 @@ public class ParseLongCommand extends Command<LongData> {
         );
     }
 
-    private List<String> sortByCount(List<Long> longs) {
-        Map<Long, Integer> map = new LinkedHashMap<>();
-        List<String> resulList = new ArrayList<>();
-        for (Long iLong : longs) {
-            map.put(iLong, map.getOrDefault(iLong, 0) + 1);
-        }
-        Map<Long, Integer> sortedMap = Utils.sortByValue(map);
-
-        for (Map.Entry<Long, Integer> entry : sortedMap.entrySet()) {
-
-            int percent = Math.round((float) entry.getValue() / longs.size() * 100);
-            resulList.add(String.format("%d: %d time(s), %d%%", entry.getKey(), entry.getValue(), percent));
-        }
-        return resulList;
+    @Override
+    public String formatter(Long aLong, int number, int percent) {
+        return String.format("%d: %d time(s), %d%%", aLong, number, percent);
     }
 }

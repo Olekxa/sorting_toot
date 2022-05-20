@@ -5,16 +5,17 @@ import data.WordData;
 import utils.SortType;
 import utils.Utils;
 
+import java.io.File;
 import java.util.*;
 
-public class ParseWordCommand extends Command<WordData> {
+public class ParseWordCommand extends Command<String, WordData> {
 
-    public ParseWordCommand(WordData input, SortType sortType) {
-        super(input, sortType);
+    public ParseWordCommand(WordData input, SortType sortType, File outputFile) {
+        super(input, sortType, outputFile);
     }
 
     @Override
-    public String execute() {
+    public String process() {
         List<String> data = getInput().getData();
         List<String> result;
         if (SortType.BY_COUNT.equals(getSortType())) {
@@ -35,21 +36,8 @@ public class ParseWordCommand extends Command<WordData> {
         );
     }
 
-    private List<String> sortByCount(List<String> words) {
-        Map<String, Integer> map = new LinkedHashMap<>();
-        List<String> resulList = new ArrayList<>();
-        for (String word : words) {
-            map.put(word, map.getOrDefault(word, 0) + 1);
-        }
-
-        Map<String, Integer> sortedMap = Utils.sortByValue(map);
-
-        for (Map.Entry<String, Integer> entry : sortedMap.entrySet()) {
-            Integer value = entry.getValue();
-
-            int percent = Math.round((float) value / words.size() * 100);
-            resulList.add(String.format("%s: %d time(s), %d%%", entry.getKey(), value, percent));
-        }
-        return resulList;
+    @Override
+    public String formatter(String s, int number, int percent) {
+        return String.format("%s: %d time(s), %d%%", s, number, percent);
     }
 }
