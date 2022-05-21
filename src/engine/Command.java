@@ -25,7 +25,9 @@ public abstract class Command<T, E extends Data<T>> {
         this.outputFile = outputFile;
     }
 
-    public abstract String process();
+    protected String process(){
+        return "";
+    };
 
     protected E getInput() {
         return input;

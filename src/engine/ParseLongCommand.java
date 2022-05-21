@@ -16,7 +16,7 @@ public class ParseLongCommand extends Command<Long, LongData> {
     }
 
     @Override
-    public String process() {
+    protected String process() {
         List<Long> data = getInput().getData();
         List<String> result;
         if (SortType.BY_COUNT.equals(getSortType())) {

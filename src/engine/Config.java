@@ -11,25 +11,23 @@ import java.util.Map;
 
 
 public class Config {
-    private Command<?, ? extends Data<?>> command;
+    private SortType sortType;
+    private File inputFile;
+    private DataType type;
+    private File outputFile;
 
 
     public Config(String[] args) {
         try {
-            this.command = factory(Utils.parseArgs(args));
+            factory(Utils.parseArgs(args));
         } catch (CommandException e) {
-            System.out.println(e.getErrors());
+           e.getErrors().forEach(System.out::println);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
-    public void execute() {
-        command.execute();
-    }
-
-    private Command<?, ? extends Data<?>> factory(
+    private void factory(
             Map<String, String> commands
     ) throws FileCommandException, NoDataException, NoSortException {
         try {
@@ -39,26 +37,14 @@ public class Config {
             for (String error : e.getErrors()) {
                 commands.remove(error);
             }
-            return factory(commands);
+            factory(commands);
         }
-        SortType sortType = parseSort(commands);
-        File inputFile = readInputFile(commands);
+        this.sortType = parseSort(commands);
+        this.inputFile = readInputFile(commands);
         String value = commands.get(Commands.DATA_TYPE);
-        DataType type = DataType.getDataType(value);
-        File outputFile = parseOutFile(commands);
-        return parseCommand(inputFile, sortType, type, outputFile);
-    }
+        this.type = DataType.getDataType(value);
+        this.outputFile = parseOutFile(commands);
 
-    private Command<?, ? extends Data<?>> parseCommand(File file, SortType sortType, DataType type, File outputFile) throws FileCommandException {
-        if (DataType.LONG == type) {
-            return new ParseLongCommand(new LongData(file), sortType, outputFile);
-        } else if (DataType.LINE == type) {
-            return new ParseLineCommand(new LineData(file), sortType, outputFile);
-        } else if (DataType.WORD == type) {
-            return new ParseWordCommand(new WordData(file), sortType, outputFile);
-        } else {
-            throw new NoDataException();
-        }
     }
 
     private File parseOutFile(Map<String, String> commands) {
@@ -69,13 +55,19 @@ public class Config {
         return null;
     }
 
-    private File readInputFile(Map<String, String> commands) {
+    private File readInputFile(Map<String, String> commands) throws FileCommandException {
         String value = commands.get(Commands.READ_DATA);
         if (value != null && !value.isBlank()) {
-            return new File(value);
+            File file = new File(value);
+            if (file.exists() && file.canWrite() && file.isFile()) {
+                return file;
+            } else {
+                throw new FileCommandException();
+            }
         }
         return null;
     }
+
 
     private void unknownCommand(Map<String, String> commands) {
         List<String> unknownCommands = commands.keySet().stream().filter(s -> !(Commands.DATA_TYPE.equals(s) || Commands.SORT_TYPE.equals(s) || Commands.WRITE_DATA.equals(s) || Commands.READ_DATA.equals(s))).toList();
@@ -93,6 +85,22 @@ public class Config {
             } else {
                 return type;
             }
-        } else return SortType.NONE;
+        } else throw new NoSortException();
+    }
+
+    public SortType getSortType() {
+        return sortType;
+    }
+
+    public File getInputFile() {
+        return inputFile;
+    }
+
+    public DataType getType() {
+        return type;
+    }
+
+    public File getOutputFile() {
+        return outputFile;
     }
 }

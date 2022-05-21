@@ -2,8 +2,7 @@ package utils;
 
 public enum SortType {
     NATURAL("natural"),
-    BY_COUNT("byCount"),
-    NONE("");
+    BY_COUNT("byCount");
 
     private final String name;
 

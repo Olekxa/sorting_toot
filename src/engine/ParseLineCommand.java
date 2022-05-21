@@ -14,7 +14,7 @@ public class ParseLineCommand extends Command<String, LineData> {
     }
 
     @Override
-    public String process() {
+    protected String process() {
         List<String> data = getInput().getData();
         List<String> result;
         if (SortType.BY_COUNT.equals(getSortType())) {

@@ -15,7 +15,7 @@ public class ParseWordCommand extends Command<String, WordData> {
     }
 
     @Override
-    public String process() {
+    protected String process() {
         List<String> data = getInput().getData();
         List<String> result;
         if (SortType.BY_COUNT.equals(getSortType())) {
