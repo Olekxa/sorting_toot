@@ -3,7 +3,6 @@ import data.*;
 import engine.*;
 import errors.*;
 import utils.SortType;
-
 import java.io.File;
 
 public class Tool {
@@ -15,22 +14,25 @@ public class Tool {
 
     public void launch() {
         try {
-            Command<?, ? extends Data<?>> command = parseCommand(config.getInputFile(), config.getSortType(), config.getType(), config.getOutputFile());
+            Command<?, ? extends Data<?>> command = parseCommand(
+                    config.getType(),
+                    config.getSortType(),
+                    config.getInputFile(),
+                    config.getOutputFile()
+            );
             command.execute();
-        } catch (NoDataException e) {
+        } catch (CommandException e) {
             e.getErrors().forEach(System.out::println);
+        } catch (Exception e) {
+            System.out.println("something went wrong");
         }
     }
 
-    private Command<?, ? extends Data<?>> parseCommand(File file, SortType sortType, DataType type, File outputFile) {
-        if (DataType.LONG == type) {
-            return new ParseLongCommand(new LongData(file), sortType, outputFile);
-        } else if (DataType.LINE == type) {
-            return new ParseLineCommand(new LineData(file), sortType, outputFile);
-        } else if (DataType.WORD == type) {
-            return new ParseWordCommand(new WordData(file), sortType, outputFile);
-        } else {
-            throw new NoDataException();
-        }
+    private Command<?, ? extends Data<?>> parseCommand(DataType type, SortType sortType, File inputFile, File outputFile) {
+        return switch (type) {
+            case LONG -> new ParseLongCommand(new LongData(inputFile), sortType, outputFile);
+            case LINE -> new ParseLineCommand(new LineData(inputFile), sortType, outputFile);
+            case WORD -> new ParseWordCommand(new WordData(inputFile), sortType, outputFile);
+        };
     }
 }

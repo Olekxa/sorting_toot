@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WordData extends Data<String> {
     public WordData(File input) throws FileCommandException {
@@ -21,6 +22,6 @@ public class WordData extends Data<String> {
                 .filter(x -> !x.equals(" "))
                 .filter(x -> !x.equals(""))
                 .sorted(Comparator.naturalOrder())
-                .toList();
+                .collect(Collectors.toList());
     }
 }
