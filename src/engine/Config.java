@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 
 public class Config {
 
-    public final static String DATA_TYPE = "-dataType";
-    public final static String SORT_TYPE = "-sortingType";
-    public final static String WRITE_DATA = "-outputFile";
-    public final static String READ_DATA = "-inputFile";
+    private final static String DATA_TYPE = "-dataType";
+    private final static String SORT_TYPE = "-sortingType";
+    private final static String WRITE_DATA = "-outputFile";
+    private final static String READ_DATA = "-inputFile";
 
     private DataType type;
     private SortType sortType;
