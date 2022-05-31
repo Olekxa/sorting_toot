@@ -6,7 +6,6 @@ import utils.Utils;
 
 import java.io.File;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class GeneralCommand<R, D extends Data<R>> {
@@ -53,15 +52,13 @@ public class GeneralCommand<R, D extends Data<R>> {
     }
 
     private List<String> sortByNatural() {
-//        List<String> stringList = new ArrayList<>();
-//        for (R number : this.input.getData()) {
-//            stringList.add(number.toString());
-//        }
-//         var items = this.input.getData().stream().map(Object::toString).collect(Collectors.joining(" "));
         return Collections.singletonList(
                 String.format(
                         "Sorted data: %s",
-                        this.input.getData().stream().map(Object::toString).collect(Collectors.joining(" "))
+                        this.input.getData()
+                                .stream()
+                                .map(Object::toString)
+                                .collect(Collectors.joining(" "))
                 ));
     }
 

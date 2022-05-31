@@ -9,9 +9,6 @@ import utils.Utils;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-
 
 public class Config {
 
@@ -26,13 +23,7 @@ public class Config {
     private File outputFile;
 
     public Config(String[] args) {
-        //  try {
         init(Utils.parseArgs(args));
- /*       } catch (CommandException e) {
-            e.getErrors().forEach(System.out::println);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
     }
 
     public SortType getSortType() {
@@ -60,13 +51,8 @@ public class Config {
     }
 
     private void init(Map<String, String> commands) {
-//        try {
+
         validateCommands(commands);
-//        } catch (UnknownCommandException e) {
-//            e.getMessages().forEach(System.out::println);
-//            e.getErrors().forEach(commands::remove);
-//            init(commands);
-//        }
 
         this.type = parseType(commands);
         this.sortType = parseSort(commands);
@@ -79,7 +65,6 @@ public class Config {
         if (!unknownCommands.isEmpty()) {
             unknownCommands.stream().map(s -> String.format("\"%s\" is not a valid parameter. It will be skipped.", s)).forEach(System.out::println);
             unknownCommands.forEach(commands::remove);
-//            throw new UnknownCommandException():
         }
     }
 

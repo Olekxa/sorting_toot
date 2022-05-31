@@ -13,7 +13,7 @@ public class Tool {
     }
 
     public void launch() throws FileCommandException, NoDataException, NoSortException {
-//        try {
+
             GeneralCommand<?, ? extends Data<?>> command = parseCommand(
                     config.getType(),
                     config.getSortType(),
@@ -21,11 +21,6 @@ public class Tool {
                     config.getOutputFile()
             );
             command.execute();
-//        } catch (CommandException e) {
-//            e.getErrors().forEach(System.out::println);
-//        } catch (Exception e) {
-//            System.out.println("something went wrong");
-//        }
     }
 
     private GeneralCommand<?, ? extends Data<?>> parseCommand(DataType type, SortType sortType, File inputFile, File outputFile) {

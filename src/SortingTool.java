@@ -12,6 +12,5 @@ public class SortingTool {
         } catch (Exception e) {
             System.out.println("something went wrong");
         }
-
     }
 }
