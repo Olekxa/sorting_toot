@@ -4,11 +4,7 @@ import data.Data;
 import utils.SortType;
 import utils.Utils;
 
-
-import javax.swing.*;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,7 +23,7 @@ public abstract class Command<T, E extends Data<T>> {
 
     protected String process(){
         return "";
-    };
+    }
 
     protected E getInput() {
         return input;

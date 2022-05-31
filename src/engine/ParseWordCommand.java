@@ -3,7 +3,6 @@ package engine;
 
 import data.WordData;
 import utils.SortType;
-import utils.Utils;
 
 import java.io.File;
 import java.util.*;
