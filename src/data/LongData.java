@@ -14,7 +14,7 @@ public class LongData extends Data<Long> {
 
     public LongData(File input) throws FileCommandException {
         super(input);
-       this.typeName ="numbers";
+        this.typeName = "numbers";
     }
 
     @Override

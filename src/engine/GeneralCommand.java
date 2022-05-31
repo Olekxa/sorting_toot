@@ -6,6 +6,7 @@ import utils.Utils;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class GeneralCommand<R, D extends Data<R>> {
@@ -20,7 +21,7 @@ public class GeneralCommand<R, D extends Data<R>> {
     }
 
     protected String process() {
-        List<R> data = input.getData();
+        List<?> data = input.getData();
         List<String> result;
 
         if (SortType.BY_COUNT.equals(sortType)) {
@@ -38,8 +39,8 @@ public class GeneralCommand<R, D extends Data<R>> {
     protected List<String> sortByCount() {
         Map<R, Integer> map = new LinkedHashMap<>();
         List<String> resulList = new ArrayList<>();
-        for (R iLong : this.input.getData()) {
-            map.put(iLong, map.getOrDefault(iLong, 0) + 1);
+        for (R r : this.input.getData()) {
+            map.put(r, map.getOrDefault(r, 0) + 1);
         }
         Map<R, Integer> sortedMap = Utils.sortByValue(map);
 
@@ -52,16 +53,16 @@ public class GeneralCommand<R, D extends Data<R>> {
     }
 
     private List<String> sortByNatural() {
-        List<String> stringList = new ArrayList<>();
-        for (R number : this.input.getData()) {
-            stringList.add(number.toString());
-        }
-        // this.getInput().getData().stream().map(String::toString).collect(Collectors.joining(" "));
+//        List<String> stringList = new ArrayList<>();
+//        for (R number : this.input.getData()) {
+//            stringList.add(number.toString());
+//        }
+//         var items = this.input.getData().stream().map(Object::toString).collect(Collectors.joining(" "));
         return Collections.singletonList(
                 String.format(
-                        "Sorted data: %s", String.join(" ", stringList)
-                )
-        );
+                        "Sorted data: %s",
+                        this.input.getData().stream().map(Object::toString).collect(Collectors.joining(" "))
+                ));
     }
 
     public String formatter(R r, int number, int percent) {

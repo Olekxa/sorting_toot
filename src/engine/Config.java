@@ -1,16 +1,15 @@
 package engine;
 
 import data.DataType;
-import errors.CommandException;
 import errors.NoDataException;
 import errors.NoSortException;
-import errors.UnknownCommandException;
 import utils.SortType;
 import utils.Utils;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 
@@ -27,13 +26,13 @@ public class Config {
     private File outputFile;
 
     public Config(String[] args) {
-        try {
-            init(Utils.parseArgs(args));
-        } catch (CommandException e) {
+        //  try {
+        init(Utils.parseArgs(args));
+ /*       } catch (CommandException e) {
             e.getErrors().forEach(System.out::println);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public SortType getSortType() {
@@ -61,13 +60,13 @@ public class Config {
     }
 
     private void init(Map<String, String> commands) {
-        try {
-            validateCommands(commands);
-        } catch (UnknownCommandException e) {
-            e.getMessages().forEach(System.out::println);
-            e.getErrors().forEach(commands::remove);
-            init(commands);
-        }
+//        try {
+        validateCommands(commands);
+//        } catch (UnknownCommandException e) {
+//            e.getMessages().forEach(System.out::println);
+//            e.getErrors().forEach(commands::remove);
+//            init(commands);
+//        }
 
         this.type = parseType(commands);
         this.sortType = parseSort(commands);
@@ -75,14 +74,12 @@ public class Config {
         this.outputFile = parseOutFile(commands);
     }
 
-    private void validateCommands(Map<String, String> commands) throws UnknownCommandException {
-        List<String> unknownCommands = commands
-                .keySet()
-                .stream()
-                .filter(s -> !(DATA_TYPE.equals(s) || SORT_TYPE.equals(s) || WRITE_DATA.equals(s) || READ_DATA.equals(s)))
-                .collect(Collectors.toList());
+    private void validateCommands(Map<String, String> commands) /* throws UnknownCommandException*/ {
+        List<String> unknownCommands = commands.keySet().stream().filter(s -> !(DATA_TYPE.equals(s) || SORT_TYPE.equals(s) || WRITE_DATA.equals(s) || READ_DATA.equals(s))).toList();
         if (!unknownCommands.isEmpty()) {
-            throw new UnknownCommandException(unknownCommands);
+            unknownCommands.stream().map(s -> String.format("\"%s\" is not a valid parameter. It will be skipped.", s)).forEach(System.out::println);
+            unknownCommands.forEach(commands::remove);
+//            throw new UnknownCommandException():
         }
     }
 

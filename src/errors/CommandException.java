@@ -1,15 +1,13 @@
 package errors;
 
-import java.util.List;
-
 public class CommandException extends RuntimeException {
-    private final List<String> errors;
+    private final String error;
 
-    public CommandException(List<String> errors) {
-        this.errors = errors;
+    public CommandException(String error) {
+        this.error = error;
     }
 
-    public List<String> getErrors() {
-        return errors;
+    public String getError() {
+        return error;
     }
 }
