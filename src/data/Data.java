@@ -12,6 +12,7 @@ public abstract class Data<T> {
     private final List<T> data;
     private final List<String> invalid;
 
+
     public Data(File input) throws FileCommandException {
         List<String> data = new ArrayList<>();
         try (Scanner scanner = getScanner(input)) {
@@ -48,4 +49,5 @@ public abstract class Data<T> {
             return new Scanner(System.in);
         }
     }
+    public abstract String getTypeName();
 }

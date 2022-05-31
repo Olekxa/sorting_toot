@@ -1,6 +1,5 @@
 package engine;
 
-
 import data.WordData;
 import utils.SortType;
 

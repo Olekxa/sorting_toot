@@ -10,10 +10,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LongData extends Data<Long> {
-
+    private final String typeName;
 
     public LongData(File input) throws FileCommandException {
         super(input);
+       this.typeName ="numbers";
     }
 
     @Override
@@ -35,5 +36,10 @@ public class LongData extends Data<Long> {
                 .map(Long::parseLong)
                 .sorted(Comparator.naturalOrder())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getTypeName() {
+        return this.typeName;
     }
 }

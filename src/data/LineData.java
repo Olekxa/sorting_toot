@@ -8,8 +8,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LineData extends Data<String> {
+    private final String typeName;
+
     public LineData(File input) throws FileCommandException {
         super(input);
+        typeName = "lines";
     }
 
     @Override
@@ -17,5 +20,10 @@ public class LineData extends Data<String> {
         return data.stream()
                 .sorted(Comparator.naturalOrder())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getTypeName() {
+        return this.typeName;
     }
 }

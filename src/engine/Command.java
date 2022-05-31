@@ -10,7 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Command<T, E extends Data<T>> {
+public abstract class Command<T, E extends Data<?>> {
     private final E input;
     private final SortType sortType;
     private final File outputFile;
@@ -23,7 +23,7 @@ public abstract class Command<T, E extends Data<T>> {
 
     protected String process(){
         return "";
-    }
+    };
 
     protected E getInput() {
         return input;

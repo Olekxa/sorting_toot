@@ -28,7 +28,7 @@ public class Config {
 
     public Config(String[] args) {
         try {
-            factory(Utils.parseArgs(args));
+            init(Utils.parseArgs(args));
         } catch (CommandException e) {
             e.getErrors().forEach(System.out::println);
         } catch (Exception e) {
@@ -60,20 +60,19 @@ public class Config {
         return outputFile;
     }
 
-    private void factory(Map<String, String> commands) {
+    private void init(Map<String, String> commands) {
         try {
             validateCommands(commands);
         } catch (UnknownCommandException e) {
             e.getMessages().forEach(System.out::println);
             e.getErrors().forEach(commands::remove);
-            factory(commands);
+            init(commands);
         }
 
         this.type = parseType(commands);
         this.sortType = parseSort(commands);
         this.inputFile = parseInputFile(commands);
         this.outputFile = parseOutFile(commands);
-
     }
 
     private void validateCommands(Map<String, String> commands) throws UnknownCommandException {

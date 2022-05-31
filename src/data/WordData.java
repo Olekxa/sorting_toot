@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class WordData extends Data<String> {
+    private final String typeName;
     public WordData(File input) throws FileCommandException {
         super(input);
+        this.typeName = "words";
     }
 
     @Override
@@ -23,5 +25,10 @@ public class WordData extends Data<String> {
                 .filter(x -> !x.equals(""))
                 .sorted(Comparator.naturalOrder())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getTypeName() {
+        return this.typeName;
     }
 }

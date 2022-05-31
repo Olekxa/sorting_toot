@@ -14,7 +14,7 @@ public class Tool {
 
     public void launch() {
         try {
-            Command<?, ? extends Data<?>> command = parseCommand(
+            GeneralCommand<?, ? extends Data<?>> command = parseCommand(
                     config.getType(),
                     config.getSortType(),
                     config.getInputFile(),
@@ -28,11 +28,11 @@ public class Tool {
         }
     }
 
-    private Command<?, ? extends Data<?>> parseCommand(DataType type, SortType sortType, File inputFile, File outputFile) {
+    private GeneralCommand<?, ? extends Data<?>> parseCommand(DataType type, SortType sortType, File inputFile, File outputFile) {
         return switch (type) {
-            case LONG -> new ParseLongCommand(new LongData(inputFile), sortType, outputFile);
-            case LINE -> new ParseLineCommand(new LineData(inputFile), sortType, outputFile);
-            case WORD -> new ParseWordCommand(new WordData(inputFile), sortType, outputFile);
+            case LONG -> new GeneralCommand(new LongData(inputFile), sortType, outputFile);
+            case LINE -> new GeneralCommand(new LineData(inputFile), sortType, outputFile);
+            case WORD -> new GeneralCommand(new WordData(inputFile), sortType, outputFile);
         };
     }
 }
