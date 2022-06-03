@@ -8,6 +8,7 @@ import utils.Utils;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class Config {
 
@@ -47,16 +48,15 @@ public class Config {
     }
 
     private void validateCommands(Map<String, String> commands) {
-        List<String> unknownCommands = commands
+        commands
                 .keySet()
                 .stream()
-                .filter(s -> !(DATA_TYPE.equals(s) || SORT_TYPE.equals(s) || WRITE_DATA.equals(s) || READ_DATA.equals(s))).toList();
-        if (!unknownCommands.isEmpty()) {
-            unknownCommands.stream()
-                    .map(s -> String.format("\"%s\" is not a valid parameter. It will be skipped.", s))
-                    .forEach(System.out::println);
-            unknownCommands.forEach(commands::remove);
-        }
+                .filter(s -> !(DATA_TYPE.equals(s) || SORT_TYPE.equals(s) || WRITE_DATA.equals(s) || READ_DATA.equals(s)))
+                .toList()
+                .forEach(s -> {
+                    System.out.printf("\"%s\" is not a valid parameter. It will be skipped.%n", s);
+                    commands.remove(s);
+                });
     }
 
     private DataType parseType(Map<String, String> commands) {
