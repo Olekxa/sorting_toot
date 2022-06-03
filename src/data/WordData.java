@@ -1,6 +1,6 @@
 package data;
 
-import errors.FileCommandException;
+import errors.CommandException;
 
 import java.io.File;
 import java.util.Arrays;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class WordData extends Data<String> {
     private final String typeName;
-    public WordData(File input) throws FileCommandException {
+    public WordData(File input) throws CommandException {
         super(input);
         this.typeName = "words";
     }

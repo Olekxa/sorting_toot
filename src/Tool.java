@@ -3,6 +3,7 @@ import data.*;
 import engine.*;
 import errors.*;
 import utils.SortType;
+
 import java.io.File;
 
 public class Tool {
@@ -12,15 +13,14 @@ public class Tool {
         this.config = cfg;
     }
 
-    public void launch() throws FileCommandException, NoDataException, NoSortException {
+    public void launch() throws CommandException {
 
-            GeneralCommand<?, ? extends Data<?>> command = parseCommand(
-                    config.getType(),
-                    config.getSortType(),
-                    config.getInputFile(),
-                    config.getOutputFile()
-            );
-            command.execute();
+        GeneralCommand<?, ? extends Data<?>> command = parseCommand(
+                config.getType(),
+                config.getSortType(),
+                config.getInputFile(),
+                config.getOutputFile());
+        command.execute();
     }
 
     private GeneralCommand<?, ? extends Data<?>> parseCommand(DataType type, SortType sortType, File inputFile, File outputFile) {

@@ -19,7 +19,7 @@ public class GeneralCommand<R, D extends Data<R>> {
         this.outputFile = outputFile;
     }
 
-    protected String process() {
+    public String process() {
         List<?> data = input.getData();
         List<String> result;
 
@@ -35,20 +35,16 @@ public class GeneralCommand<R, D extends Data<R>> {
         return String.format("%s%s\n%s", printInvalid, total, sort);
     }
 
-    protected List<String> sortByCount() {
-        Map<R, Integer> map = new LinkedHashMap<>();
-        List<String> resulList = new ArrayList<>();
-        for (R r : this.input.getData()) {
+    private List<String> sortByCount() {
+        Map<R, Integer> map = new HashMap<>();
+        for (R r : input.getData()) {
             map.put(r, map.getOrDefault(r, 0) + 1);
         }
-        Map<R, Integer> sortedMap = Utils.sortByValue(map);
-
-        for (Map.Entry<R, Integer> entry : sortedMap.entrySet()) {
-
-            int percent = Math.round((float) entry.getValue() / this.input.getData().size() * 100);
-            resulList.add(formatter(entry.getKey(), entry.getValue(), percent));
-        }
-        return resulList;
+        return Utils.sortByValue(map).entrySet().stream()
+                .map(entry -> {
+                    int percent = Math.round((float) entry.getValue() / input.getData().size() * 100);
+                    return String.format("%s: %d time(s), %d%%", entry.getKey(), entry.getValue(), percent);
+                }).collect(Collectors.toList());
     }
 
     private List<String> sortByNatural() {

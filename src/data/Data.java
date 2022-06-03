@@ -1,6 +1,6 @@
 package data;
 
-import errors.FileCommandException;
+import errors.CommandException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,7 +13,7 @@ public abstract class Data<T> {
     private final List<String> invalid;
 
 
-    public Data(File input) throws FileCommandException {
+    public Data(File input) throws CommandException {
         List<String> data = new ArrayList<>();
         try (Scanner scanner = getScanner(input)) {
             while (scanner.hasNext()) {
@@ -38,12 +38,12 @@ public abstract class Data<T> {
         return invalid;
     }
 
-    private Scanner getScanner(File input) throws FileCommandException {
+    private Scanner getScanner(File input) throws CommandException {
         if (input != null) {
             try {
                 return new Scanner(input);
             } catch (FileNotFoundException e) {
-                throw new FileCommandException();
+                throw new CommandException("File not found");
             }
         } else {
             return new Scanner(System.in);

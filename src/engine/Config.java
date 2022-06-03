@@ -1,8 +1,7 @@
 package engine;
 
 import data.DataType;
-import errors.NoDataException;
-import errors.NoSortException;
+import errors.CommandException;
 import utils.SortType;
 import utils.Utils;
 
@@ -27,19 +26,11 @@ public class Config {
     }
 
     public SortType getSortType() {
-        if (sortType == null) {
-            throw new NoSortException();
-        } else {
-            return sortType;
-        }
+        return sortType;
     }
 
     public DataType getType() {
-        if (type == null) {
-            throw new NoDataException();
-        } else {
-            return type;
-        }
+        return type;
     }
 
     public File getInputFile() {
@@ -61,9 +52,20 @@ public class Config {
     }
 
     private void validateCommands(Map<String, String> commands) /* throws UnknownCommandException*/ {
-        List<String> unknownCommands = commands.keySet().stream().filter(s -> !(DATA_TYPE.equals(s) || SORT_TYPE.equals(s) || WRITE_DATA.equals(s) || READ_DATA.equals(s))).toList();
+        if (type == null) {
+            throw new CommandException("No data type defined!");
+        }
+        if (sortType == null) {
+            throw new CommandException("No sorting type defined!");
+        }
+        List<String> unknownCommands = commands
+                .keySet()
+                .stream()
+                .filter(s -> !(DATA_TYPE.equals(s) || SORT_TYPE.equals(s) || WRITE_DATA.equals(s) || READ_DATA.equals(s))).toList();
         if (!unknownCommands.isEmpty()) {
-            unknownCommands.stream().map(s -> String.format("\"%s\" is not a valid parameter. It will be skipped.", s)).forEach(System.out::println);
+            unknownCommands.stream()
+                    .map(s -> String.format("\"%s\" is not a valid parameter. It will be skipped.", s))
+                    .forEach(System.out::println);
             unknownCommands.forEach(commands::remove);
         }
     }

@@ -1,6 +1,6 @@
 package data;
 
-import errors.FileCommandException;
+import errors.CommandException;
 
 import java.io.File;
 import java.util.Comparator;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class LineData extends Data<String> {
     private final String typeName;
 
-    public LineData(File input) throws FileCommandException {
+    public LineData(File input) throws CommandException {
         super(input);
         typeName = "lines";
     }

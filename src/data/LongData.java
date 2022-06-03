@@ -1,6 +1,6 @@
 package data;
 
-import errors.FileCommandException;
+import errors.CommandException;
 
 import java.io.File;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class LongData extends Data<Long> {
     private final String typeName;
 
-    public LongData(File input) throws FileCommandException {
+    public LongData(File input) throws CommandException {
         super(input);
         this.typeName = "numbers";
     }
