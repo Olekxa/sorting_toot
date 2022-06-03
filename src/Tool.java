@@ -1,7 +1,11 @@
-
-import data.*;
-import engine.*;
-import errors.*;
+import data.Data;
+import data.DataType;
+import data.LineData;
+import data.LongData;
+import data.WordData;
+import engine.Config;
+import engine.GeneralCommand;
+import errors.CommandException;
 
 import java.io.File;
 
