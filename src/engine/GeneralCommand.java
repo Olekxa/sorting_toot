@@ -30,11 +30,10 @@ public class GeneralCommand<R, D extends Data<R>> {
         } else {
             result = sortByNatural();
         }
-        List<String> refactored = getInvalidList();
-        String printInvalid = String.join("", refactored);
+
         String total = String.format("Total %s: %d.", input.getTypeName(), data.size());
         String sort = String.join("\n", result);
-        return String.format("%s%s\n%s", printInvalid, total, sort);
+        return String.format("%s\n%s", total, sort);
     }
 
     private List<String> sortByCount() {
@@ -42,7 +41,9 @@ public class GeneralCommand<R, D extends Data<R>> {
         for (R r : input.getData()) {
             map.put(r, map.getOrDefault(r, 0) + 1);
         }
-        return Utils.sortByValue(map).entrySet().stream()
+        return Utils.sortByValue(map)
+                .entrySet()
+                .stream()
                 .map(entry -> {
                     int percent = Math.round((float) entry.getValue() / input.getData().size() * 100);
                     return String.format("%s: %d time(s), %d%%", entry.getKey(), entry.getValue(), percent);
@@ -57,20 +58,6 @@ public class GeneralCommand<R, D extends Data<R>> {
 
         return Collections.singletonList(
                 String.format("Sorted data: %s", collect));
-    }
-
-    public String formatter(R r, int number, int percent) {
-        return String.format("%s: %d time(s), %d%%", r.toString(), number, percent);
-    }
-
-    private List<String> getInvalidList() {
-        List<String> invalidMessage = input
-                .getInvalid()
-                .stream()
-                .map(s -> String.format("\"%s\" is not a long. It will be skipped.\n", s))
-                .collect(Collectors.toList());
-        return Collections
-                .singletonList(String.join("", invalidMessage));
     }
 
     public void execute() {

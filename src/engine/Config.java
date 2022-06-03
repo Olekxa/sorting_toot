@@ -22,7 +22,7 @@ public class Config {
 
     public Config(String[] args) {
         var commands = Utils.parseArgs(args);
-        validateCommands(commands);
+        checkUnknownCommands(commands);
         this.type = parseType(commands);
         this.sortType = parseSort(commands);
         this.inputFile = parseInputFile(commands);
@@ -45,7 +45,7 @@ public class Config {
         return outputFile;
     }
 
-    private void validateCommands(Map<String, String> commands) {
+    private void checkUnknownCommands(Map<String, String> commands) {
         commands
                 .keySet()
                 .stream()

@@ -1,7 +1,6 @@
 package data;
 
 import errors.CommandException;
-
 import java.io.File;
 import java.util.Comparator;
 import java.util.List;

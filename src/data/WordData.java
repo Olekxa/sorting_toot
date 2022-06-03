@@ -1,7 +1,6 @@
 package data;
 
 import errors.CommandException;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;

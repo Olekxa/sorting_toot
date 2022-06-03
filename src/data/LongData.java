@@ -14,17 +14,19 @@ public class LongData extends Data<Long> {
         super(input);
     }
 
-    @Override
-    public List<String> mapInvalid(List<String> data) {
-        return data
+
+    public void mapInvalid(List<String> data) {
+        data
                 .stream()
                 .flatMap(s -> Arrays.stream(s.split(" ")))
-                .filter(x -> x.matches("[a-zA-Z]+"))
-                .collect(Collectors.toList());
+                .filter(x -> x.matches(".*\\D.*"))
+                .map(s -> String.format("\"%s\" is not a long. It will be skipped.\n", s))
+                .forEach(System.out::print);
     }
 
     @Override
     public List<Long> mapData(List<String> data) {
+        mapInvalid(data);
         return data
                 .stream()
                 .map(String::trim)
