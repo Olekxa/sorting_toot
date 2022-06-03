@@ -1,7 +1,6 @@
 package data;
 
 import errors.CommandException;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -13,7 +12,6 @@ public class LongData extends Data<Long> {
     public LongData(File input) throws CommandException {
         super(input);
     }
-
 
     public void mapInvalid(List<String> data) {
         data

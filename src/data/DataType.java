@@ -7,7 +7,6 @@ public enum DataType {
 
     private final String nameCommand;
 
-
     DataType(String nameCommand) {
         this.nameCommand = nameCommand;
     }
