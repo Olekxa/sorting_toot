@@ -9,11 +9,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LongData extends Data<Long> {
-    private final String typeName;
 
     public LongData(File input) throws CommandException {
         super(input);
-        this.typeName = "numbers";
     }
 
     @Override
@@ -39,6 +37,6 @@ public class LongData extends Data<Long> {
 
     @Override
     public String getTypeName() {
-        return this.typeName;
+        return "numbers";
     }
 }

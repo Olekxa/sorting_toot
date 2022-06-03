@@ -48,14 +48,13 @@ public class GeneralCommand<R, D extends Data<R>> {
     }
 
     private List<String> sortByNatural() {
+        String collect = this.input.getData()
+                .stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(" "));
+
         return Collections.singletonList(
-                String.format(
-                        "Sorted data: %s",
-                        this.input.getData()
-                                .stream()
-                                .map(Object::toString)
-                                .collect(Collectors.joining(" "))
-                ));
+                String.format("Sorted data: %s", collect));
     }
 
     public String formatter(R r, int number, int percent) {

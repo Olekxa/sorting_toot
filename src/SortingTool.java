@@ -3,9 +3,9 @@ import errors.CommandException;
 
 public class SortingTool {
     public static void main(String[] args) {
-        Config config = new Config(args);
-        Tool tools = new Tool(config);
         try {
+            Config config = new Config(args);
+            Tool tools = new Tool(config);
             tools.launch();
         } catch (CommandException e) {
             System.out.println(e.getError());

@@ -16,13 +16,18 @@ public class Config {
     private final static String WRITE_DATA = "-outputFile";
     private final static String READ_DATA = "-inputFile";
 
-    private DataType type;
-    private SortType sortType;
-    private File inputFile;
-    private File outputFile;
+    private final DataType type;
+    private final SortType sortType;
+    private final File inputFile;
+    private final File outputFile;
 
     public Config(String[] args) {
-        init(Utils.parseArgs(args));
+        var commands = Utils.parseArgs(args);
+        validateCommands(commands);
+        this.type = parseType(commands);
+        this.sortType = parseSort(commands);
+        this.inputFile = parseInputFile(commands);
+        this.outputFile = parseOutFile(commands);
     }
 
     public SortType getSortType() {
@@ -41,23 +46,7 @@ public class Config {
         return outputFile;
     }
 
-    private void init(Map<String, String> commands) {
-
-        validateCommands(commands);
-
-        this.type = parseType(commands);
-        this.sortType = parseSort(commands);
-        this.inputFile = parseInputFile(commands);
-        this.outputFile = parseOutFile(commands);
-    }
-
-    private void validateCommands(Map<String, String> commands) /* throws UnknownCommandException*/ {
-        if (type == null) {
-            throw new CommandException("No data type defined!");
-        }
-        if (sortType == null) {
-            throw new CommandException("No sorting type defined!");
-        }
+    private void validateCommands(Map<String, String> commands) {
         List<String> unknownCommands = commands
                 .keySet()
                 .stream()
@@ -72,12 +61,20 @@ public class Config {
 
     private DataType parseType(Map<String, String> commands) {
         String value = commands.get(DATA_TYPE);
-        return DataType.getDataType(value);
+        DataType dataType = DataType.getDataType(value);
+        if (dataType == null) {
+            throw new CommandException("No data type defined!");
+        }
+        return dataType;
     }
 
     private SortType parseSort(Map<String, String> commands) {
         String value = commands.get(SORT_TYPE);
-        return SortType.getType(value);
+        SortType type = SortType.getType(value);
+        if (type == null) {
+            throw new CommandException("No sorting type defined!");
+        }
+        return type;
     }
 
     private File parseOutFile(Map<String, String> commands) {

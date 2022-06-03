@@ -50,4 +50,5 @@ public abstract class Data<T> {
         }
     }
     public abstract String getTypeName();
+
 }

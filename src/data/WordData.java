@@ -9,10 +9,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class WordData extends Data<String> {
-    private final String typeName;
+
     public WordData(File input) throws CommandException {
         super(input);
-        this.typeName = "words";
     }
 
     @Override
@@ -29,6 +28,6 @@ public class WordData extends Data<String> {
 
     @Override
     public String getTypeName() {
-        return this.typeName;
+        return "words";
     }
 }

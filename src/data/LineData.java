@@ -8,11 +8,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LineData extends Data<String> {
-    private final String typeName;
 
     public LineData(File input) throws CommandException {
         super(input);
-        typeName = "lines";
     }
 
     @Override
@@ -24,6 +22,6 @@ public class LineData extends Data<String> {
 
     @Override
     public String getTypeName() {
-        return this.typeName;
+        return "lines";
     }
 }
