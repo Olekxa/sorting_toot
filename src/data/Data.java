@@ -10,7 +10,7 @@ import java.util.Scanner;
 public abstract class Data<T> {
     private final List<T> data;
 
-    public Data(File input) throws CommandException {
+    public Data(File input) {
         List<String> data = new ArrayList<>();
         try (Scanner scanner = getScanner(input)) {
             while (scanner.hasNext()) {
@@ -26,7 +26,7 @@ public abstract class Data<T> {
         return data;
     }
 
-    private Scanner getScanner(File input) throws CommandException {
+    private Scanner getScanner(File input) {
         if (input != null) {
             try {
                 return new Scanner(input);
@@ -37,6 +37,7 @@ public abstract class Data<T> {
             return new Scanner(System.in);
         }
     }
+
     public abstract String getTypeName();
 
 }

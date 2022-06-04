@@ -1,6 +1,5 @@
 package data;
 
-import errors.CommandException;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -9,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class WordData extends Data<String> {
 
-    public WordData(File input) throws CommandException {
+    public WordData(File input) {
         super(input);
     }
 

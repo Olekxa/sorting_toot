@@ -1,6 +1,5 @@
 package data;
 
-import errors.CommandException;
 import java.io.File;
 import java.util.Comparator;
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class LineData extends Data<String> {
 
-    public LineData(File input) throws CommandException {
+    public LineData(File input)  {
         super(input);
     }
 

@@ -1,6 +1,5 @@
 package data;
 
-import errors.CommandException;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -10,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class LongData extends Data<Long> {
 
-    public LongData(File input) throws CommandException {
+    public LongData(File input) {
         super(input);
     }
 
