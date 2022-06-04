@@ -1,7 +1,7 @@
 import engine.Config;
 import errors.CommandException;
 
-public class SortingTool {
+public class SortingToolRunner {
     public static void main(String[] args) {
         try {
             Config config = new Config(args);

@@ -19,8 +19,7 @@ public class WordData extends Data<String> {
                 .stream()
                 .map(String::trim)
                 .flatMap(s -> Arrays.stream(s.split(" ")))
-                .filter(x -> !x.equals(" "))
-                .filter(x -> !x.equals(""))
+                .filter(x -> !x.isBlank())
                 .sorted(Comparator.naturalOrder())
                 .collect(Collectors.toList());
     }
