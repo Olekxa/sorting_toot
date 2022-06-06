@@ -21,7 +21,7 @@ public class GeneralCommand<R, D extends Data<R>> {
         this.outputFile = outputFile;
     }
 
-    public String process() {
+    private String process() {
         List<?> data = input.getData();
         List<String> result;
 
