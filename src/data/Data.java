@@ -1,14 +1,43 @@
 package data;
 
-public abstract class Data {
+import errors.CommandException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-    abstract int countCharSet();
+public abstract class Data<T> {
+    private final List<T> data;
 
-    abstract int showBiggest();
+    public Data(File input) {
+        List<String> data = new ArrayList<>();
+        try (Scanner scanner = getScanner(input)) {
+            while (scanner.hasNext()) {
+                data.add(scanner.nextLine());
+            }
+        }
+        this.data = mapData(data);
+    }
 
-    abstract int repetitionsOfBiggest();
+    public abstract List<T> mapData(List<String> data);
 
-    abstract int repetitionsOfBiggestInPercent();
+    public List<T> getData() {
+        return data;
+    }
 
+    private Scanner getScanner(File input) {
+        if (input != null) {
+            try {
+                return new Scanner(input);
+            } catch (FileNotFoundException e) {
+                throw new CommandException("File not found");
+            }
+        } else {
+            return new Scanner(System.in);
+        }
+    }
+
+    public abstract String getTypeName();
 
 }
